@@ -122,6 +122,15 @@
  <url-pattern>/room.do</url-pattern>
  </servlet-mapping>
  
+  <servlet>
+ <servlet-name>roomInfo.do</servlet-name>
+ <servlet-class>com.oracle.servlet.room.RoomInfoServlet</servlet-class>
+ </servlet>
+ <servlet-mapping>
+ <servlet-name>roomInfo.do</servlet-name>
+ <url-pattern>/roomInfo.do</url-pattern>
+ </servlet-mapping>
+ 
  <servlet>
  <servlet-name>roomadd</servlet-name>
  <servlet-class>com.oracle.servlet.room.RoomAddServlet</servlet-class>

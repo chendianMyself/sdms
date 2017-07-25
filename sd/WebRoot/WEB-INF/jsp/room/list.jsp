@@ -9,6 +9,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
 <title>无标题文档</title>
+
+<link type="text/css" rel="styleSheet" href="layer/layer/skin/default/layer.css"/>
 <style type="text/css">
 <!--
 body {
@@ -49,6 +51,10 @@ a:active {
 
 -->
 </style>
+
+<script src="js/jquery.js"></script>
+<script src="layer/layer/layer.js"></script>
+
 <script>
 	function test(opt){
 		//alert(opt);
@@ -80,6 +86,39 @@ a:active {
 		document.getElementById("floor"+floors).selected="selected";
 		
 	}
+	function openLayer(id){
+		//layer.msg('hello');
+		
+		layer.open({
+			type:2,
+			title: "房间信息",//如果不需要标题栏,则设置为false,如果需要,则直接设置标题
+			closeBtn: 1, //设置为0不显示关闭按钮
+			maxmin :true,//是否显示最大化,最小化按钮
+			shade: [0.5,"#999"],//第一个参数为透明度,0为全透明.第二个参数为遮罩层颜色
+			area: ['550px', '355px'],//使用2个参数定义宽度和高度,如果只定义一个参数,表示设置宽度,而高度由系统自定义
+			//offset: 'rb', //右下角弹出
+			//time: 2000, //2秒后自动关闭,通常针对与提示层来进行设置
+			anim: 2,//动画效果.0-6.如果设置为-1表示无动画
+			content: ['roomInfo.do?id='+id, 'no'], //iframe的url，no代表不显示滚动条
+			btn : [ '确认','取消','不知道'],
+			yes:function (){
+				alert(111111);
+			},
+			//第二个以后的按钮自带关闭效果,如果不希望执行完毕后自动关闭
+			//则应当在方法调用即将结束时返回fasle
+			btn2:function(){
+				alert(2222222);
+				return false;
+			},
+			btn3:function(){
+				alert(33333333);
+				return false;
+			}
+		});
+	}
+	
+	
+	
 </script>
 
 </head>
@@ -161,6 +200,7 @@ a:active {
             <td width="24%" height="18" background="images/tab_14.gif" class="STYLE1"><div align="center" class="STYLE2 STYLE1">所属公寓</div></td>
             <td width="8%" height="18" background="images/tab_14.gif" class="STYLE1"><div align="center" class="STYLE2 STYLE1">房间号</div></td>
             <td width="24%" height="18" background="images/tab_14.gif" class="STYLE1"><div align="center" class="STYLE2 STYLE1">备注</div></td>
+            <td width="7%" height="18" background="images/tab_14.gif" class="STYLE1"><div align="center" class="STYLE2">查看</div></td>
             <td width="7%" height="18" background="images/tab_14.gif" class="STYLE1"><div align="center" class="STYLE2">编辑</div></td>
             <td width="7%" height="18" background="images/tab_14.gif" class="STYLE1"><div align="center" class="STYLE2">删除</div></td>
           </tr>
@@ -178,6 +218,7 @@ a:active {
             <td height="18" bgcolor="#FFFFFF" class="STYLE2"><div align="center" class="STYLE2 STYLE1">${room.floors }</div></td>
             <td height="18" bgcolor="#FFFFFF" class="STYLE2"><div align="center" class="STYLE2 STYLE1">${room.roomNo }</div></td>
             <td height="18" bgcolor="#FFFFFF"><div align="center" class="STYLE2 STYLE1">${room.remark }</div></td>
+             <td height="18" bgcolor="#FFFFFF"><div align="center" class="STYLE2 STYLE1"><a href="javascript:openLayer('${room.id }')">查看</a></div></td>
             <td height="18" bgcolor="#FFFFFF"><div align="center" class="STYLE2 STYLE1"><a href="roomUpdate.do?id=${room.id }">修改</a></div></td>
             																			<!-- 根据指定数据的id进行删除操作 -->
             <td height="18" bgcolor="#FFFFFF"><div align="center" class="STYLE2 STYLE1"><a href="roomDelete.do?id=${room.id }">删除</a></div></td>
