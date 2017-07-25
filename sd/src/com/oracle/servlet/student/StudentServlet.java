@@ -9,13 +9,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.oracle.dao.DeptDao;
-import com.oracle.dao.RoomDao;
 import com.oracle.domain.Dept;
-import com.oracle.domain.Room;
 import com.oracle.domain.Student;
 import com.oracle.service.StudentService;
+import com.oracle.util.PageUtil;
 
 public class StudentServlet extends HttpServlet{
+	public static final int pageSize=1;
+	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
@@ -32,7 +33,34 @@ public class StudentServlet extends HttpServlet{
 		List<Dept> deptList=new DeptDao().getAll();
 		request.setAttribute("deptList", deptList);
 		StudentService studentService = new StudentService();
-		List<Student> list = studentService.findAll(deptId, roomId, name, no);
+		
+		
+		//当前页
+				int currentPage=1;
+				String currentPageStr=request.getParameter("currentPage");
+				if(currentPageStr!=null)currentPage=Integer.parseInt(currentPageStr);
+				//总数量
+				int maxSize=new StudentService().countAll(deptId, roomId, name, no);
+				//总页数
+				int maxPage=PageUtil.getMaxPage(maxSize, pageSize);
+				//页容量pageSize
+				
+				//对当前页的取值范围进行限定
+				//如果输入的页码小于1,则返回第一页,如果输入的页码大于最后一页,则返回最后一页
+				if(currentPage<1)currentPage=1;
+				if(currentPage>maxPage)currentPage=maxPage;
+				
+				request.setAttribute("currentPage", currentPage);
+				request.setAttribute("maxSize", maxSize);
+				request.setAttribute("maxPage", maxPage);
+				request.setAttribute("pageSize", pageSize);
+				
+				int begin=(currentPage-1)*pageSize;
+				int length=pageSize;
+		
+				List<Student> list = studentService.findAll(deptId, roomId, name, no,begin,pageSize);
+		
+		
 		
 		request.setAttribute("list", list);
 		request.setAttribute("deptId", deptId);

@@ -28,9 +28,9 @@ public class StudentAddServlet extends HttpServlet{
 		
 		
 		StudentService studentService = new StudentService();
-		List<Student> list = studentService.findAll(deptId, roomId, name, no);
+		//List<Student> list = studentService.findAll(deptId, roomId, name, no,begin,pageSize);
 		
-		request.setAttribute("list", list);
+		//request.setAttribute("list", list);
 		request.setAttribute("deptId", deptId);
 		request.setAttribute("floors", floors);
 		request.setAttribute("roomId", roomId);

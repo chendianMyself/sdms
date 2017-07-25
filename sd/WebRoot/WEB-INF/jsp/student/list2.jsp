@@ -119,6 +119,20 @@ a:active {
 			}
 	});
 }	
+
+function search(page){
+		var maxPage="${maxPage}";
+		
+		if(maxPage)maxPage=parseInt(maxPage);
+	
+		if(page<1){
+		}else if(page>maxPage){
+		}else{
+			document.getElementById("currentPage").value=page;
+			document.getElementById("searchForm").submit();
+		}
+		
+	}	
 </script>
 </head>
 
@@ -176,8 +190,10 @@ a:active {
             <td width="6%" height="26" background="images/tab_14.gif" class="STYLE1" colspan="8">
 	            <div align="left" class="STYLE2 STYLE1">
 	            
-	            	<form action="student.do" method="post">
+	            	<form id="searchForm" action="student.do" method="post">
+	            		<input type="hidden" id="currentPage" name="currentPage" value="${currentPage }"/>
 	            		&nbsp;&nbsp;&nbsp;&nbsp;请选择公寓&nbsp;&nbsp;${deptId }
+	            		
 	            		<select name="deptId"  id="deptSelect" style="width:120px">
 	            			<!-- 0代表查询全部 -->
 	            			<option value="0" >---请选择公寓---</option>
@@ -252,14 +268,14 @@ a:active {
         <td width="15" height="29"><img src="images/tab_20.gif" width="15" height="29" /></td>
         <td background="images/tab_21.gif"><table width="100%" border="0" cellspacing="0" cellpadding="0">
           <tr>
-            <td width="25%" height="29" nowrap="nowrap"><span class="STYLE1">共120条纪录，当前第1/10页，每页10条纪录</span></td>
+            <td width="25%" height="29" nowrap="nowrap"><span class="STYLE1">共${maxSize }条纪录，当前第${currentPage }/${maxPage }页，每页${pageSize }条纪录</span></td>
             <td width="75%" valign="top" class="STYLE1"><div align="right">
               <table width="352" height="20" border="0" cellpadding="0" cellspacing="0">
                 <tr>
-                  <td width="62" height="22" valign="middle"><div align="right"><img src="images/first.gif" width="37" height="15" /></div></td>
-                  <td width="50" height="22" valign="middle"><div align="right"><img src="images/back.gif" width="43" height="15" /></div></td>
-                  <td width="54" height="22" valign="middle"><div align="right"><img src="images/next.gif" width="43" height="15" /></div></td>
-                  <td width="49" height="22" valign="middle"><div align="right"><img src="images/last.gif" width="37" height="15" /></div></td>
+                  <td width="62" height="22" valign="middle"><div align="right"><a href="javascript:search(1)"><img src="images/first.gif" width="37" height="15" /></a></div></td>
+                  <td width="50" height="22" valign="middle"><div align="right"><a href="javascript:search(${currentPage-1 })"><img src="images/back.gif" width="43" height="15" /></a></div></td>
+                  <td width="54" height="22" valign="middle"><div align="right"><a href="javascript:search(${currentPage+1 })"><img src="images/next.gif" width="43" height="15" /></a></div></td>
+                  <td width="49" height="22" valign="middle"><div align="right"><a href="javascript:search(${maxPage })"><img src="images/last.gif" width="37" height="15" /></a></div></td>
                   <td width="59" height="22" valign="middle"><div align="right">转到第</div></td>
                   <td width="25" height="22" valign="middle"><span class="STYLE7">
                     <input name="textfield" type="text" class="STYLE1" style="height:10px; width:25px;" size="5" />

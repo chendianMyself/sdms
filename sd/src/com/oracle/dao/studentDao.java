@@ -9,7 +9,7 @@ import com.oracle.domain.Room;
 import com.oracle.domain.Student;
 
 public class studentDao extends BaseDao{
-	public List<Student> findAll(Student student){
+	public List<Student> findAll(Student student,int begin,int length){
 		getConn();
 		try {
 			//查询全部内容
@@ -18,6 +18,8 @@ public class studentDao extends BaseDao{
 					+" where s.flag=0 and s.name like concat('%',concat(?,'%')) and s.no like concat('%',concat(?,'%'))";
 			if(student.getDept().getId()!=0)sql+= " and s.dept_id ="+student.getDept().getId();
 			if(student.getRoom().getId()!=0)sql+= " and s.room_id ="+student.getRoom().getId();
+			
+			sql+=" limit "+begin+","+length;
 			
 			ps=conn.prepareStatement(sql);
 			ps.setString(1, student.getName());
@@ -77,6 +79,29 @@ public class studentDao extends BaseDao{
 		
 		
 		
+	}
+	public int countAll(Student student){
+		getConn();
+		int count = 0;
+		try {
+			//查询总数量的sql语句,无关其他补充信息表和查询列,只要保持与集合列表相同的查询条件即可
+			String sql="select count(*) from student s where s.flag=0 and s.name like concat('%',concat(?,'%')) and s.no like concat('%',concat(?,'%'))";
+			if(student.getDept().getId()!=0)sql+= " and s.dept_id ="+student.getDept().getId();
+			if(student.getRoom().getId()!=0)sql+= " and s.room_id ="+student.getRoom().getId();
+			ps=conn.prepareStatement(sql);
+			ps.setString(1, student.getName());
+			ps.setString(2, student.getNo());
+			
+			rs=ps.executeQuery();
+			
+			rs.next();
+			count = rs.getInt(1);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return count;
 	}
 	
 	
