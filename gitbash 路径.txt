@@ -1,0 +1,2 @@
+C:\Windows\SysWOW64\cmd.exe /c ""D:\Git\bin\sh.exe" --login -i"
+%HOMEDRIVE%%HOMEPATH%
